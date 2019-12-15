@@ -36,13 +36,13 @@ START: 00:01 14-12-2019 | END: 00:01 15-12-2019
 
 
 #### *Sponsors*
-* [PentesterLab](https://pentesterlab.com/) 
-* [ASK Pentest](https://www.facebook.com/askpentest/)
-* [Securelytics](https://www.securelytics.my/)
-* [TheCampAround](https://www.thecamparound.com/)
-* [TheBugBounty](https://thebugbounty.com/)
-* [Pentest.MY](http://www.training.my/)
-* [Syntx](https://www.linkedin.com/company/syntx-my/about/)
-* [SysArmy](https://www.sysarmy.net/)
-* [Exploitable.Host](https://exploitable.host/)
-* [NanoSec](https://nanosec.asia/)
+[![PentesterLab](logo/pentesterlab.png)](https://pentesterlab.com/) 
+[![ASK Pentest](logo/askpentest.png)](https://www.facebook.com/askpentest/)
+[![Securelytics](logo/securelytics.png)](https://www.securelytics.my/)
+[![TheCampAround](logo/thecamparound.png)](https://www.thecamparound.com/)
+[![TheBugBounty](logo/tbb.png)](https://thebugbounty.com/)
+[![Pentest.MY](logo/pentestmy.png)](http://www.training.my/)
+[![Syntx](logo/syntx.png)](https://www.linkedin.com/company/syntx-my/about/)
+[![SysArmy](logo/syntx.png)](https://www.sysarmy.net/)
+[![Exploitable.Host](logo/exploitablehost.png)](https://exploitable.host/)
+[![NanoSec](logo/nanosec.png)](https://nanosec.asia/)
