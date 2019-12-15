@@ -36,13 +36,35 @@ START: 00:01 14-12-2019 | END: 00:01 15-12-2019
 
 
 #### *Sponsors*
-[![PentesterLab](logo/pentesterlab.png)](https://pentesterlab.com/) 
-[![ASK Pentest](logo/askpentest.png)](https://www.facebook.com/askpentest/)
-[![Securelytics](logo/securelytics.png)](https://www.securelytics.my/)
-[![TheCampAround](logo/thecamparound.png)](https://www.thecamparound.com/)
-[![TheBugBounty](logo/tbb.png)](https://thebugbounty.com/)
-[![Pentest.MY](logo/pentestmy.png)](http://www.training.my/)
-[![Syntx](logo/syntx.png)](https://www.linkedin.com/company/syntx-my/about/)
-[![SysArmy](logo/sysarmy.png)](https://www.sysarmy.net/)
-[![Exploitable.Host](logo/exploitablehost.png)](https://exploitable.host/)
-[![NanoSec](logo/nanosec.png)](https://nanosec.asia/)
+<p align="center">
+<a href="https://pentesterlab.com/">
+    <image src="logo/pentesterlab.png" height="40">
+</a>
+<a href="https://www.facebook.com/askpentest/">
+    <image src="logo/askpentest.png" height="60">
+</a>
+<a href="https://thebugbounty.com/">
+    <image src="logo/tbb.png" height="40">
+</a>
+<a href="http://www.training.my/">
+    <image src="logo/pentestmy.png" height="40">
+</a>
+<a href="https://www.securelytics.my/">
+    <image src="logo/securelytics.png" height="30">
+</a>
+<a href="https://www.linkedin.com/company/syntx-my/about/">
+    <image src="logo/syntx.png" height="60">
+</a>
+<a href="https://www.sysarmy.net/">
+    <image src="logo/sysarmy.png" height="50">
+</a>
+<a href="https://exploitable.host/">
+    <image src="logo/exploitablehost.png" height="60">
+</a>
+<a href="https://www.thecamparound.com/">
+    <image src="logo/thecamparound.png" height="25">
+</a>
+<a href="https://nanosec.asia/">
+    <image src="logo/nanosec.png" height="50">
+</a>
+</p>
