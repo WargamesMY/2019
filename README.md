@@ -1,6 +1,4 @@
 # Wargames.MY CTF
-#### *Sponsors*
-
 #### *Date*
 
 ```text
@@ -21,7 +19,7 @@ START: 00:01 14-12-2019 | END: 00:01 15-12-2019
 9. At all times, the decision of the WGMY Crew is final on any matter in question
 ```
 
-#### *Scoring*
+#### *ELIGIBILITY*
 
 ```text
 - To be eligible for prizes, players must fit the following criteria:
@@ -35,3 +33,16 @@ START: 00:01 14-12-2019 | END: 00:01 15-12-2019
 #### *Final Scoreboard*
 
 ![image](score.png)
+
+
+#### *Sponsors*
+* [PentesterLab](https://pentesterlab.com/) 
+* [ASK Pentest](https://www.facebook.com/askpentest/)
+* [Securelytics](https://www.securelytics.my/)
+* [TheCampAround](https://www.thecamparound.com/)
+* [TheBugBounty](https://thebugbounty.com/)
+* [Pentest.MY](http://www.training.my/)
+* [Syntx](https://www.linkedin.com/company/syntx-my/about/)
+* [SysArmy](https://www.sysarmy.net/)
+* [Exploitable.Host](https://exploitable.host/)
+* [NanoSec](https://nanosec.asia/)
