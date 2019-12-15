@@ -43,6 +43,6 @@ START: 00:01 14-12-2019 | END: 00:01 15-12-2019
 [![TheBugBounty](logo/tbb.png)](https://thebugbounty.com/)
 [![Pentest.MY](logo/pentestmy.png)](http://www.training.my/)
 [![Syntx](logo/syntx.png)](https://www.linkedin.com/company/syntx-my/about/)
-[![SysArmy](logo/syntx.png)](https://www.sysarmy.net/)
+[![SysArmy](logo/sysarmy.png)](https://www.sysarmy.net/)
 [![Exploitable.Host](logo/exploitablehost.png)](https://exploitable.host/)
 [![NanoSec](logo/nanosec.png)](https://nanosec.asia/)
