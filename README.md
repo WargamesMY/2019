@@ -30,6 +30,29 @@ START: 00:01 14-12-2019 | END: 00:01 15-12-2019
 
 #### *Write-up*
 
+* [Full Writeup](writeups/7e7Writeup.pdf) from 7e7
+* [Full Writeup](https://daniellimws.github.io/wargamesmy-19/writeups) from daniellimws
+* [Full Writeup](https://github.com/kaizensecurity/WGMY2019) from KaizenSecurity x UNITEN 
+* [Full Writeup](writeups/woitheuKWriteup.pdf) from d29pdGhldUs
+* [Full Writeup](https://github.com/Amjad50/WGMY-CTF-2019) from sudoers
+
+|Challenge|Links|
+|---------|-----|
+| NothingToSeeHere | | 
+| MyPWNSQL | | 
+| PwnKotakItu | | 
+| PHP Playground | * [Developer](writeups/WGMY%20December%202019%20Challenge%20-%20PHP-Perpustakaan%20PHAR%20Deserialization.pdf) | 
+| babypwn | | 
+| masakan | | 
+| steal | | 
+| malu apa bossku | | 
+| interpreter_from_hell | | 
+| robot-captcha | | 
+| ayah-peng.pcapng | | 
+| stream | | 
+| easytalk.wav | | 
+
+
 #### *Final Scoreboard*
 
 ![image](score.png)
