@@ -1,0 +1,129 @@
+
+
+language note:
+i)  nested-if and nested-while is supported
+ii) local variable concept is supported
+
+
+1) assign (DONE)
+----------
+
+ASSIGN_VAR VAR VAR|CONSTANT|string
+
+2) USER INPUT (DONE)
+--------------
+
+INPUT ==> INPUT VAR
+OUTPUT ==> OUTPUT_FROM_VAR VAR
+OUTPUT (string) => OUTPUT_STRING string
+OUTPUT (newline) => OUTPUT_NEWLINE
+
+3) MATH OPERATION (DONE)
+------------------
+
+note: left-hand side is destination of the operations
+
++ ==> ADD VAR VAR|CONSTANT
+- ==> SUBTRACT VAR VAR|CONSTANT
+* ==> MULTIPLY VAR VAR|CONSTANT
+/ ==> DIVIDE VAR VAR|CONSTANT
+% ==> MODULO VAR VAR|CONSTANT
+var++ ==> INCREMENT_BY_ONE VAR
+var-- ==> DECREMENT_BY_ONE VAR
+
+
+4) BITWISE OPERATOR (DONE)
+--------------------
+
+&  == AND VAR VAR|CONSTANT
+|  == OR VAR VAR|CONSTANT
+^  == XOR VAR VAR|CONSTANT
+~  == COMPLEMENT VAR
+<< == SHIFT_LEFT VAR VAR|CONSTANT
+>> == SHIFT_RIGHT VAR VAR|CONSTANT
+
+
+5) COMPARISON OPERATOR
+----------------------
+
+NOTE: ONLY WORKS WITH INTEGER
+
+==   ==>  A EQUALS B
+!=   ==>  A NEQUALS B
+>    ==>  A GREATER_THAN B
+<    ==>  A LESS_THAN B
+>=   ==>  A GREATER_THAN_OR_EQUAL B
+<=   ==>  A LESS_THAN_OR_EQUAL B
+
+6) LOOP (DONE)
+--------
+
+VAR = 0
+STARTWHILE VAR < 10
+    ...
+ENDWHILE
+
+7) IF-STATEMENT (DONE)
+----------------
+
+VAR = 0
+STARTIF VAR < 0
+    ...
+ELSEIF
+    ...
+ENDIF
+
+8) ARRAY
+--------
+
+note: only number can be inserted into array
+note: for doing array operation, array must be defined first
+
+// define array
+ARRAY_DEFINE ARR
+
+// initialize array from ascii string
+// first arr = name of ARRAY
+// second var = from which variable ascii will be fetched
+// note!: array must be empty (just defined)
+ARRAY_FROM_VAR_ASCII ARR VAR
+
+// push into array
+// first arr = name of ARRAY
+// second var|constant = value to be pushed
+ARRAY_PUSH ARR VAR|CONSTANT
+
+// get size of array
+// first arr = name of array
+// second var = target variable to put size
+ARRAY_GET_SIZE ARR VAR
+
+// access array at i'th index
+// first arr = name of array
+// second index = i'th index value to be fetched
+// third var = target variable
+ARRAY_ACCESS ARR INDEX|VAR VAR
+
+// modify array at i'th index
+// first arr = name of array
+// second index = i'th index value to be modified
+// third var|constant = from which var|constant to modify data with
+ARRAY_MODIFY ARR INDEX|VAR VAR|CONSTANT
+
+
+9) RANDOM NUMBER (mt19937 - mersenne_twister)
+---------------------------
+
+RANDOM_SET_SEED var|constant
+
+// gen next random 4 bytes and put into arr (4 bytes)
+// arr need to be defined before, and empty (new array)
+RANDOM_GEN ARR
+
+8) MISC
+--------
+
+// exit(return_value)
+EXIT constant_val
+
+

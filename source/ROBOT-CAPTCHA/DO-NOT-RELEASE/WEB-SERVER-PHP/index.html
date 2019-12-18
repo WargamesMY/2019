@@ -1,0 +1,220 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" 
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+
+        <style>
+            .vertical-center {
+                min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+                min-height: 100vh; /* These two lines are counted as one :-)       */
+
+                display: flex;
+                align-items: center;
+            }
+
+            #circletimer {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                margin: 20px;
+                width: 200px;
+                height: 200px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="mt-5">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <h4>Blip Blip! This page is *supposedly* only accessible by a robot.</h4>
+                </div>
+                <div class="row justify-content-md-center">
+                    <h4>You need to solve below "captcha" to reveal the <i>*secret content*</i>.</h4>
+                </div>
+                <div class="row justify-content-md-center">
+                    <h4>Well, there is a time limit on bottom right corner, to make sure you are really a robot.</h4>
+                </div>
+                <div class="row justify-content-md-center">
+                    <h4>As I'm feeling generous today, you only need to have 90% of correct attempt to succeed!</h4>
+                </div>
+                <div class="row justify-content-md-center">
+                    <h4>Good luck!</h4>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="mt-5">
+            <div class="container">
+                <div class="predict-image">
+                    <div class="row justify-content-md-center">
+                        <h3 class="attempt-print"></h3>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <h3 class="correct-print"></h3>
+                    </div>
+                    <div class="row last-attempt-div justify-content-md-center">
+                        <h3>Last Attempt:&nbsp;&nbsp;</h3>
+                        <h3 class="last-attempt"></h3>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <img src="" class="rounded float-left" width="30%" height="30%">
+                    </div>
+                    <div class="row form-group justify-content-md-center mt-5">
+                        <div class="btn-toolbar">
+                            <button type="button" onclick="submit_answer('cat')" class="btn btn-primary btn-lg mr-5">Cat</button>
+                            <button type="button" onclick="submit_answer('dog')" class="btn btn-primary btn-lg">Dog</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="show-flag-container">
+                    <div class="row justify-content-md-center">
+                        <h1 id="show-flag"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="circletimer"></div>
+
+        <script type='text/javascript'>
+
+            $(document).ready(function() {
+
+                $.get("api.php?reset_all", function() {
+
+                    print_cnt(0, 0);
+
+                    $('.last-attempt-div').hide();
+                    $('.show-flag-container').hide();
+                    
+                    $.get("api.php?req", function(data, status) {
+                        if (data.includes("ALERT!")) {
+                            alert(data);
+                        } else {
+                            $(".justify-content-md-center > img").attr(
+                                'src',
+                                'data:image/jpg;base64,' + data
+                            ); 
+                        }
+                    });
+
+                    $.get("api.php?get_options", function(data, status) {
+
+                        // progressbar.js@1.0.0 version is used
+                        // Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+
+                        var time_limit = parseInt(JSON.parse(data)['time_limit']);print_last_attempt_status
+                        var time_limit_ms = time_limit * 1000;
+
+                        var bar = new ProgressBar.Circle(circletimer, {
+                            color: '#aaa',
+                            // This has to be the same size as the maximum width to
+                            // prevent clipping
+                            strokeWidth: 4,
+                            trailWidth: 1,
+                            easing: 'linear',
+                            duration: time_limit_ms,
+                            text: {
+                                autoStyleContainer: false
+                            },
+                            from: { color: '#aaa', width: 1 },
+                            to: { color: '#333', width: 4 },
+                            // Set default step function for all animate calls
+                            step: function(state, circle) {
+                                circle.path.setAttribute('stroke', state.color);
+                                circle.path.setAttribute('stroke-width', state.width);
+                                var value = Math.round(circle.value() * time_limit);
+                                circle.setText('' + value + 's');
+                            }
+                        });
+                        bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+                        bar.text.style.fontSize = '2rem';
+                        
+                        bar.set(1);
+                        bar.animate(0);
+
+                    });
+
+                    
+                });
+
+            });  // end of document.ready
+
+            function submit_answer(ans) {
+                $.get("api.php?submitanswer=" + ans, function(data, status) {
+
+                    if (data.includes("ALERT!")) {
+                        alert(data);
+                    } else {
+
+                        $('.btn-toolbar > button').attr("disabled", true);
+
+                        var json_data = JSON.parse(data);
+                        var attempt_cnt = parseInt(json_data['attempt_cnt']);
+                        var correct_cnt = parseInt(json_data['correct_cnt']);
+
+                        print_cnt(attempt_cnt, correct_cnt);
+                        print_last_attempt_status(json_data['status'] == 'Correct');
+
+                        $.get("api.php?get_options", function(data, status) {
+
+                            var correct_required = parseInt(JSON.parse(data)['correct_required']);
+
+                            // yeayy show flag here
+                            if (correct_cnt >= correct_required) {
+                                $.get("api.php?get_flag", function(data, status) {
+                                    if (data.includes("ALERT!")) {
+                                        console.log(data);
+                                    } else {
+                                        $('.predict-image').hide();
+                                        $('.show-flag-container').show();
+                                        $('#show-flag').text(data);
+                                    }
+                                });
+                            } else {
+                                $.get("api.php?req", function(data, status) {
+                                    if (data.includes("ALERT!")) {
+                                        console.log(data);
+                                    } else {
+                                        $(".justify-content-md-center > img").attr(
+                                            'src',
+                                            'data:image/jpg;base64,' + data
+                                        );
+
+                                        $('.btn-toolbar > button').attr("disabled", false);
+                                    }
+                                });
+                            }
+                        });
+                        
+                    }
+
+                });
+            }
+
+            function print_cnt(attempt_cnt, correct_cnt) {
+                $.get("api.php?get_options", function(data, status) {
+                    var num_question = parseInt(JSON.parse(data)['num_question']);
+                    var correct_required = parseInt(JSON.parse(data)['correct_required']);
+                    $('.attempt-print').text('Attempt: ' + attempt_cnt + '/' + num_question);
+                    $('.correct-print').text('Correct: ' + correct_cnt + '/' + correct_required);
+                });
+            }
+
+            function print_last_attempt_status(attempt_bool) {
+                var ele = $('.last-attempt');
+                $('.last-attempt-div').show();
+                ele.css('color', attempt_bool ? 'green' : 'red');
+                ele.text(attempt_bool ? 'Correct' : 'Incorrect');
+            }
+            
+        </script>
+    </body>
+</html>

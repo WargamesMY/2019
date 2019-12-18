@@ -1,0 +1,376 @@
+
+//
+// take input from user
+//
+
+INPUT flag
+ARRAY_DEFINE flag_arr
+ARRAY_FROM_VAR_ASCII flag_arr flag
+
+// get array size
+ARRAY_GET_SIZE flag_arr flag_arr_size
+
+//
+// check if input is same length as our original flag
+//
+
+STARTIF flag_arr_size NEQUALS 38
+   EXIT 0
+ENDIF
+
+
+//
+// part 1
+//
+
+ASSIGN_VAR checksum 0x0
+
+ASSIGN_VAR idx 0
+STARTWHILE idx LESS_THAN flag_arr_size
+
+    ASSIGN_VAR mod_checksum idx
+    MODULO mod_checksum 32
+
+    ARRAY_ACCESS flag_arr idx flag_char
+    SHIFT_LEFT flag_char mod_checksum
+
+    XOR checksum flag_char
+
+    INCREMENT_BY_ONE idx
+
+ENDWHILE
+
+STARTIF checksum NEQUALS 0xb5973a46
+   EXIT 0
+ENDIF
+
+//
+// part 2
+//
+
+ASSIGN_VAR byte 0x61
+XOR byte 0x0c
+ARRAY_ACCESS flag_arr 2 flag_char
+STARTIF byte NEQUALS flag_char
+    EXIT 0
+ENDIF
+
+ASSIGN_VAR byte 0x6c
+XOR byte 0x0b
+ARRAY_ACCESS flag_arr 1 flag_char
+STARTIF byte NEQUALS flag_char
+    EXIT 0
+ENDIF
+
+ASSIGN_VAR byte 0x67
+XOR byte 0x1e
+ARRAY_ACCESS flag_arr 3 flag_char
+STARTIF byte NEQUALS flag_char
+    EXIT 0
+ENDIF
+
+ASSIGN_VAR byte 0x28
+XOR byte 0x55
+ARRAY_ACCESS flag_arr 37 flag_char
+STARTIF byte NEQUALS flag_char
+    EXIT 0
+ENDIF
+
+ASSIGN_VAR byte 0x66
+XOR byte 0x11
+ARRAY_ACCESS flag_arr 0 flag_char
+STARTIF byte NEQUALS flag_char
+    EXIT 0
+ENDIF
+
+
+ASSIGN_VAR byte 0x3a
+XOR byte 0x41
+ARRAY_ACCESS flag_arr 4 flag_char
+STARTIF byte NEQUALS flag_char
+    EXIT 0
+ENDIF
+
+
+//
+// part 3
+//
+
+ARRAY_DEFINE flag_part2
+
+// copy chunk into new arr
+ASSIGN_VAR idx 5
+STARTWHILE idx LESS_THAN 21
+    ARRAY_ACCESS flag_arr idx flag_char
+    ARRAY_PUSH flag_part2 flag_char
+    INCREMENT_BY_ONE idx
+ENDWHILE
+
+// create seed
+
+ARRAY_ACCESS flag_arr 3 rand_seed
+
+ARRAY_ACCESS flag_arr 1 flag_char
+SHIFT_LEFT flag_char 16
+XOR rand_seed flag_char
+
+ARRAY_ACCESS flag_arr 0 flag_char
+SHIFT_LEFT flag_char 24
+XOR rand_seed flag_char
+
+ARRAY_ACCESS flag_arr 2 flag_char
+SHIFT_LEFT flag_char 8
+XOR rand_seed flag_char
+
+// do xor operation
+
+RANDOM_SET_SEED rand_seed
+
+ASSIGN_VAR idx_i 0
+STARTWHILE idx_i LESS_THAN 125
+
+    ASSIGN_VAR idx_j 0
+    STARTWHILE idx_j LESS_THAN 16
+        ARRAY_DEFINE rand_gen
+        RANDOM_GEN rand_gen
+        ARRAY_ACCESS flag_part2 idx_j flag_part2_char
+        ARRAY_ACCESS rand_gen 3 rand_last_byte
+        XOR flag_part2_char rand_last_byte
+        ARRAY_MODIFY flag_part2 idx_j flag_part2_char
+        INCREMENT_BY_ONE idx_j
+    ENDWHILE
+
+    ASSIGN_VAR idx_j 1
+    STARTWHILE idx_j LESS_THAN 16
+        ASSIGN_VAR idx_j_prev idx_j
+        SUBTRACT idx_j_prev 1
+        ARRAY_ACCESS flag_part2 idx_j flag_part2_char
+        ARRAY_ACCESS flag_part2 idx_j_prev flag_part2_char_prev
+        XOR flag_part2_char flag_part2_char_prev
+        ARRAY_MODIFY flag_part2 idx_j flag_part2_char
+        INCREMENT_BY_ONE idx_j
+    ENDWHILE
+
+    INCREMENT_BY_ONE idx_i
+
+ENDWHILE
+
+ARRAY_DEFINE chunk_check
+ARRAY_PUSH chunk_check 0xa0
+ARRAY_PUSH chunk_check 0x0b
+ARRAY_PUSH chunk_check 0x77
+ARRAY_PUSH chunk_check 0xf1
+ARRAY_PUSH chunk_check 0xb2
+ARRAY_PUSH chunk_check 0x4b
+ARRAY_PUSH chunk_check 0x6e
+ARRAY_PUSH chunk_check 0x63
+ARRAY_PUSH chunk_check 0xef
+ARRAY_PUSH chunk_check 0xfd
+ARRAY_PUSH chunk_check 0xaa
+ARRAY_PUSH chunk_check 0x8e
+ARRAY_PUSH chunk_check 0xd9
+ARRAY_PUSH chunk_check 0xce
+ARRAY_PUSH chunk_check 0x50
+ARRAY_PUSH chunk_check 0x9c
+
+ASSIGN_VAR count_correct 0
+ASSIGN_VAR idx_j 0
+STARTWHILE idx_j LESS_THAN 16
+    ARRAY_ACCESS flag_part2 idx_j flag_part2_byte
+    ARRAY_ACCESS chunk_check idx_j chunk_check_byte
+    STARTIF flag_part2_byte EQUALS chunk_check_byte
+        INCREMENT_BY_ONE count_correct
+    ENDIF
+    INCREMENT_BY_ONE idx_j
+ENDWHILE
+
+STARTIF count_correct NEQUALS 16
+    EXIT 0
+ENDIF
+
+
+// 
+// part 4
+//
+
+// flag[11] == flag[26] &&
+ARRAY_ACCESS flag_arr 11 byte_1
+ARRAY_ACCESS flag_arr 26 byte_2
+STARTIF byte_1 NEQUALS byte_2
+    EXIT 0
+ENDIF
+
+// flag[35] ^ flag[36] ^ flag[31] ^ flag[34] == 1 &&
+ARRAY_ACCESS flag_arr 35 byte_1
+ARRAY_ACCESS flag_arr 36 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 31 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 34 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 1
+    EXIT 0
+ENDIF
+
+// flag[26] ^ flag[36] ^ flag[35] ^ flag[21] == 81 &&
+ARRAY_ACCESS flag_arr 26 byte_1
+ARRAY_ACCESS flag_arr 36 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 35 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 21 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 81
+    EXIT 0
+ENDIF
+
+// flag[31] ^ flag[22] ^ flag[23] ^ flag[27] == 85 &&
+ARRAY_ACCESS flag_arr 31 byte_1
+ARRAY_ACCESS flag_arr 22 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 23 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 27 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 85
+    EXIT 0
+ENDIF
+
+// flag[30] ^ flag[25] ^ flag[22] ^ flag[34] == 6 &&
+ARRAY_ACCESS flag_arr 30 byte_1
+ARRAY_ACCESS flag_arr 25 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 22 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 34 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 6
+    EXIT 0
+ENDIF
+
+// flag[21] ^ flag[29] ^ flag[24] ^ flag[26] == 7 &&
+ARRAY_ACCESS flag_arr 21 byte_1
+ARRAY_ACCESS flag_arr 29 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 24 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 26 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 7
+    EXIT 0
+ENDIF
+
+// flag[25] ^ flag[23] ^ flag[36] == 108 &&
+ARRAY_ACCESS flag_arr 25 byte_1
+ARRAY_ACCESS flag_arr 23 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 36 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 108
+    EXIT 0
+ENDIF
+
+// flag[36] ^ flag[35] ^ flag[25] == 51 &&
+ARRAY_ACCESS flag_arr 36 byte_1
+ARRAY_ACCESS flag_arr 35 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 25 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 51
+    EXIT 0
+ENDIF
+
+// flag[29] ^ flag[32] ^ flag[33] ^ flag[21] == 80 &&
+ARRAY_ACCESS flag_arr 29 byte_1
+ARRAY_ACCESS flag_arr 32 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 33 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 21 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 80
+    EXIT 0
+ENDIF
+
+// flag[25] ^ flag[26] ^ flag[30] ^ flag[34] == 6 &&
+ARRAY_ACCESS flag_arr 25 byte_1
+ARRAY_ACCESS flag_arr 26 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 30 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 34 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 6
+    EXIT 0
+ENDIF
+
+// flag[21] ^ flag[24] ^ flag[34] == 48 &&
+ARRAY_ACCESS flag_arr 21 byte_1
+ARRAY_ACCESS flag_arr 24 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 34 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 48
+    EXIT 0
+ENDIF
+
+// flag[29] ^ flag[35] ^ flag[30] ^ flag[27] == 11 &&
+ARRAY_ACCESS flag_arr 29 byte_1
+ARRAY_ACCESS flag_arr 35 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 30 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 27 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 11
+    EXIT 0
+ENDIF
+
+// flag[34] ^ flag[32] ^ flag[23] ^ flag[30] == 6 &&
+ARRAY_ACCESS flag_arr 34 byte_1
+ARRAY_ACCESS flag_arr 32 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 23 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 30 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 6
+    EXIT 0
+ENDIF
+
+// flag[33] ^ flag[23] ^ flag[26] ^ flag[35] == 95 &&
+ARRAY_ACCESS flag_arr 33 byte_1
+ARRAY_ACCESS flag_arr 23 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 26 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 35 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 95
+    EXIT 0
+ENDIF
+
+// flag[32] ^ flag[33] ^ flag[30] == 98 &&
+ARRAY_ACCESS flag_arr 32 byte_1
+ARRAY_ACCESS flag_arr 33 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 30 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 98
+    EXIT 0
+ENDIF
+
+// flag[27] ^ flag[28] ^ flag[23] ^ flag[30] == 2
+ARRAY_ACCESS flag_arr 27 byte_1
+ARRAY_ACCESS flag_arr 28 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 23 byte_2
+XOR byte_1 byte_2
+ARRAY_ACCESS flag_arr 30 byte_2
+XOR byte_1 byte_2
+STARTIF byte_1 NEQUALS 2
+    EXIT 0
+ENDIF
+
+
+EXIT 255
