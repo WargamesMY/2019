@@ -21,6 +21,10 @@ function get_new_image()
     $thumb = new Imagick();
     $thumb->readImage(IMG_FOLDER. $rand_element);
 
+    /*
+    
+    // disabled, takes too much server resources
+    
     $rand_transform = rand(1, 3);
 
     switch($rand_transform)
@@ -39,7 +43,10 @@ function get_new_image()
     }
 
     # to prevent hash search, we do some transformation
-    $thumb->resizeImage(400, 245, Imagick::FILTER_CATROM,1);
+    $thumb->resizeImage(400, 245, Imagick::FILTER_CATROM,1);*/
+
+    $thumb->setImageCompression(Imagick::COMPRESSION_JPEG);
+    $thumb->setImageCompressionQuality(20);
 
     return [
         substr($rand_element, 0, 3),
